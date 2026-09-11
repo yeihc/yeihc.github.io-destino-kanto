@@ -750,6 +750,140 @@
     .pokemon-bulbasaur .eye-left { left: 20px; }
     .pokemon-bulbasaur .eye-right { right: 20px; }
 
+    /* Snorlax */
+    .pokemon-snorlax { width: 88px; height: 84px; }
+    .pokemon-snorlax .body {
+      position: absolute;
+      width: 68px;
+      height: 52px;
+      background: #3d7a6e;
+      border-radius: 48% 48% 42% 42%;
+      bottom: 10px;
+      left: 10px;
+      border: 2px solid #2a5a50;
+    }
+    .pokemon-snorlax .belly {
+      position: absolute;
+      width: 44px;
+      height: 36px;
+      background: #f0e8d0;
+      border-radius: 50%;
+      bottom: 16px;
+      left: 22px;
+      border: 2px solid #d8d0b8;
+    }
+    .pokemon-snorlax .head {
+      position: absolute;
+      width: 50px;
+      height: 40px;
+      background: #3d7a6e;
+      border-radius: 50% 50% 45% 45%;
+      bottom: 48px;
+      left: 19px;
+      border: 2px solid #2a5a50;
+    }
+    .pokemon-snorlax .ear {
+      position: absolute;
+      width: 14px;
+      height: 10px;
+      background: #2a5a50;
+      border-radius: 50%;
+      bottom: 78px;
+    }
+    .pokemon-snorlax .ear-left { left: 18px; transform: rotate(-20deg); }
+    .pokemon-snorlax .ear-right { right: 18px; transform: rotate(20deg); }
+    .pokemon-snorlax .eye {
+      position: absolute;
+      width: 12px;
+      height: 4px;
+      background: #1a1c2c;
+      border-radius: 2px;
+      bottom: 66px;
+    }
+    .pokemon-snorlax .eye-left { left: 26px; }
+    .pokemon-snorlax .eye-right { right: 26px; }
+    .pokemon-snorlax .mouth {
+      position: absolute;
+      width: 16px;
+      height: 8px;
+      border: 2px solid #1a1c2c;
+      border-top: none;
+      border-radius: 0 0 50% 50%;
+      bottom: 56px;
+      left: 36px;
+      background: transparent;
+    }
+    .pokemon-snorlax .arm {
+      position: absolute;
+      width: 18px;
+      height: 22px;
+      background: #3d7a6e;
+      border: 2px solid #2a5a50;
+      border-radius: 40%;
+      bottom: 28px;
+    }
+    .pokemon-snorlax .arm-left {
+      left: 4px;
+      transform: rotate(25deg);
+    }
+    .pokemon-snorlax .arm-right {
+      right: 4px;
+      transform: rotate(-25deg);
+    }
+    .pokemon-snorlax .foot {
+      position: absolute;
+      width: 20px;
+      height: 12px;
+      background: #f0e8d0;
+      border: 2px solid #d8d0b8;
+      border-radius: 40% 40% 50% 50%;
+      bottom: 4px;
+    }
+    .pokemon-snorlax .foot-left { left: 18px; }
+    .pokemon-snorlax .foot-right { right: 18px; }
+    .pokemon-snorlax .zzz {
+      position: absolute;
+      top: 0;
+      right: 2px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.45rem;
+      color: #b0bec5;
+      animation: snorlax-sleep 2.5s ease infinite;
+    }
+    .pokemon-snorlax .zzz span {
+      display: block;
+      animation: zzz-float 2.5s ease infinite;
+    }
+    .pokemon-snorlax .zzz span:nth-child(2) {
+      font-size: 0.35rem;
+      margin-left: 6px;
+      animation-delay: 0.4s;
+    }
+    .pokemon-snorlax .zzz span:nth-child(3) {
+      font-size: 0.28rem;
+      margin-left: 12px;
+      animation-delay: 0.8s;
+    }
+
+    @keyframes snorlax-sleep {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(2px); }
+    }
+
+    @keyframes zzz-float {
+      0%, 100% { opacity: 0.3; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(-4px); }
+    }
+
+    .trainer-card:has(.pokemon-snorlax) .pokemon-sprite {
+      animation: snorlax-bounce 3s ease-in-out infinite;
+    }
+
+    @keyframes snorlax-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
     /* Charizard */
     .pokemon-charizard { width: 88px; height: 92px; }
     .pokemon-charizard .body {
@@ -1160,7 +1294,8 @@
       squirtle: 'Squirtle',
       bulbasaur: 'Bulbasaur',
       charizard: 'Charizard',
-      abra: 'Abra'
+      abra: 'Abra',
+      snorlax: 'Snorlax'
     };
 
     function formatMoney(amount) {
@@ -1236,6 +1371,24 @@
             <div class="eye eye-left"></div>
             <div class="eye eye-right"></div>
             <div class="nose"></div>
+          </div>`,
+        snorlax: `
+          <div class="pokemon pokemon-snorlax" role="img" aria-label="Snorlax">
+            <div class="zzz" aria-hidden="true">
+              <span>z</span><span>z</span><span>z</span>
+            </div>
+            <div class="body"></div>
+            <div class="belly"></div>
+            <div class="arm arm-left"></div>
+            <div class="arm arm-right"></div>
+            <div class="foot foot-left"></div>
+            <div class="foot foot-right"></div>
+            <div class="head"></div>
+            <div class="ear ear-left"></div>
+            <div class="ear ear-right"></div>
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="mouth"></div>
           </div>`
       };
       return templates[pokemon] || templates.pikachu;
