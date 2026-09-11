@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto: ¡Destino Kanto! 🇯🇵</title>
+    <!-- Fuentes estilo Keycap / Gaming -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --poke-red: #ef5350;
+            --poke-blue: #2a75d3;
+            --poke-yellow: #ffcb05;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: var(--poke-yellow);
+            text-shadow: 2px 2px var(--poke-blue);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+
+        /* Contenedor de progreso de captura */
+        .progress-container {
+            background: var(--card-bg);
+            border: 3px solid var(--poke-blue);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(42, 117, 211, 0.2);
+        }
+
+        .progress-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .bar-outer {
+            background: #333;
+            border-radius: 10px;
+            height: 25px;
+            width: 100%;
+            overflow: hidden;
+            border: 2px solid #555;
+        }
+
+        .bar-inner {
+            height: 100%;
+            width: 0%; /* Se calcula dinámicamente */
+            background: linear-gradient(90deg, #ff5f6d, #ffc371);
+            transition: width 1s ease-in-out;
+        }
+
+        /* Grid de Entrenadores */
+        .trainers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .trainer-card {
+            background: var(--card-bg);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .trainer-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--poke-yellow);
+        }
+
+        .leader-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--poke-yellow);
+            color: black;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .trainer-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .poke-sprite {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto;
+        }
+
+        .xp-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: #4fc3f7;
+            margin: 15px 0;
+        }
+
+        /* Panel de Medallas */
+        .badges-box {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+            background: #151515;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .badge-slot {
+            font-size: 1.5rem;
+            filter: grayscale(100%);
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+
+        .badge-slot.unlocked {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Controles de Simulación */
+        .admin-panel {
+            margin-top: 40px;
+            background: #222;
+            padding: 15px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+        }
+
+        .admin-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: var(--poke-red);
+            margin-bottom: 15px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-around;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        select, input {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        button {
+            background: var(--poke-blue);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #1b50a2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>PROYECTO: DESTINO KANTO</h1>
+    <div class="subtitle">Operación Japón 2030 🇯🇵</div>
+
+    <!-- BARRA GLOBAL DE CAPTURA (PROGRESO) -->
+    <div class="progress-container">
+        <div class="progress-title">
+            <span>CAPTURANDO EL VIAJE...</span>
+            <span id="global-percentage">0%</span>
+        </div>
+        <div class="bar-outer">
+            <div id="progress-bar" class="bar-inner"></div>
+        </div>
+        <div style="margin-top: 10px; font-size: 0.9rem; text-align: center; color: #aaa;">
+            Total Ahorrado: <span id="global-total" style="color: #81c784; font-weight: bold;">$0</span> / Meta Inicial Ajustada: $16,884 USD
+        </div>
+    </div>
+
+    <!-- TARJETAS DE ENTRENADORES -->
+    <div class="trainers-grid">
+        <!-- Entrenador 1 -->
+        <div class="trainer-card" id="card-p1">
+            <div class="leader-badge" id="leader-p1" style="display:none;">LÍDER</div>
+            <div class="trainer-name">Tú</div>
+            <select id="select-p1" onchange="updatePokemon('p1')">
+                <option value="25">Pikachu</option>
+                <option value="4">Charmander</option>
+                <option value="7">Squirtle</option>
+                <option value="1">Bulbasaur</option>
+            </select>
+            <img id="sprite-p1" class="poke-sprite" src="https://githubusercontent.com" alt="Pokemon">
+            <div class="xp-text">XP: $<span id="balance-p1">0</span></div>
+            <div class="badges-box" id="badges-p1"></div>
+        </div>
+
+        <!-- Entrenador 2 -->
+        <div class="trainer-card" id="card-p2">
+            <div class="leader-badge" id="leader-p2" style="display:none;">LÍDER</div>
+            <div class="trainer-name">Esposa</div>
+            <select id="select-p2" onchange="updatePokemon('p2')">
+                <option value="4">Charmander</option>
+                <option value="25">Pikachu</option>
+                <option value="7">Squirtle</option>
+                <option value="1">Bulbasaur</option>
+            </select>
+            <img id="sprite-p2" class="poke-sprite" src="https://githubusercontent.com" alt="Pokemon">
+            <div class="xp-text">XP: $<span id="balance-p2">0</span></div>
+            <div class="badges-box" id="badges-p2"></div>
+        </div>
+
+        <!-- Entrenador 3 -->
+        <div class="trainer-card" id="card-p3">
+            <div class="leader-badge" id="leader-p3" style="display:none;">LÍDER</div>
+            <div class="trainer-name">Amigo</div>
+            <select id="select-p3" onchange="updatePokemon('p3')">
+                <option value="7">Squirtle</option>
+                <option value="25">Pikachu</option>
+                <option value="4">Charmander</option>
+                <option value="1">Bulbasaur</option>
+            </select>
+            <img id="sprite-p3" class="poke-sprite" src="https://githubusercontent.com" alt="Pokemon">
+            <div class="xp-text">XP: $<span id="balance-p3">0</span></div>
+            <div class="badges-box" id="badges-p3"></div>
+        </div>
+    </div>
+
+    <!-- PANEL DE ADMINISTRACIÓN DE TU EXCEL GLOBAL -->
+    <div class="admin-panel">
+        <div class="admin-title">⚙️ PANEL DE CONTROL GLOBAL (TÚ ACTUALIZAS AQUÍ)</div>
+        <div class="controls">
+            <div class="control-group">
+                <label>Tu Balance ($)</label>
+                <input type="number" id="input-p1" value="0" min="0" onchange="recalculateAll()">
+            </div>
+            <div class="control-group">
+                <label>Esposa Balance ($)</label>
+                <input type="number" id="input-p2" value="0" min="0" onchange="recalculateAll()">
+            </div>
+            <div class="control-group">
+                <label>Amigo Balance ($)</label>
+                <input type="number" id="input-p3" value="0" min="0" onchange="recalculateAll()">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GOAL = 16884; // Meta total ajustada por inflación de los 3
+        const badgeEmojis = ['💎', '🌊', '⚡', '🌈', '🟤', '💜', '🔥', '🌍'];
+
