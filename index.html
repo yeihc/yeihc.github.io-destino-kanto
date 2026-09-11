@@ -750,6 +750,188 @@
     .pokemon-bulbasaur .eye-left { left: 20px; }
     .pokemon-bulbasaur .eye-right { right: 20px; }
 
+    /* Charizard */
+    .pokemon-charizard { width: 88px; height: 92px; }
+    .pokemon-charizard .body {
+      position: absolute;
+      width: 52px;
+      height: 40px;
+      background: #f08030;
+      border-radius: 42% 42% 36% 36%;
+      bottom: 18px;
+      left: 18px;
+      border: 2px solid #c06020;
+    }
+    .pokemon-charizard .belly {
+      position: absolute;
+      width: 30px;
+      height: 24px;
+      background: #f8c878;
+      border-radius: 50%;
+      bottom: 22px;
+      left: 29px;
+    }
+    .pokemon-charizard .head {
+      position: absolute;
+      width: 44px;
+      height: 36px;
+      background: #f08030;
+      border-radius: 48% 48% 40% 40%;
+      bottom: 48px;
+      left: 22px;
+      border: 2px solid #c06020;
+    }
+    .pokemon-charizard .horn {
+      position: absolute;
+      width: 8px;
+      height: 14px;
+      background: #f8c878;
+      border-radius: 2px;
+      bottom: 76px;
+    }
+    .pokemon-charizard .horn-left { left: 28px; transform: rotate(-12deg); }
+    .pokemon-charizard .horn-right { right: 28px; transform: rotate(12deg); }
+    .pokemon-charizard .eye {
+      position: absolute;
+      width: 10px;
+      height: 12px;
+      background: #1a1c2c;
+      border-radius: 50%;
+      bottom: 62px;
+      border: 1px solid #fff;
+    }
+    .pokemon-charizard .eye-left { left: 30px; }
+    .pokemon-charizard .eye-right { right: 30px; }
+    .pokemon-charizard .wing {
+      position: absolute;
+      width: 28px;
+      height: 36px;
+      background: #f08030;
+      border: 2px solid #c06020;
+      border-radius: 0 70% 30% 0;
+      bottom: 38px;
+    }
+    .pokemon-charizard .wing-left {
+      left: 4px;
+      transform: rotate(-25deg);
+      background: linear-gradient(135deg, #78a8e8 30%, #f08030 30%);
+    }
+    .pokemon-charizard .wing-right {
+      right: 4px;
+      transform: rotate(25deg) scaleX(-1);
+      background: linear-gradient(135deg, #78a8e8 30%, #f08030 30%);
+    }
+    .pokemon-charizard .tail {
+      position: absolute;
+      width: 36px;
+      height: 14px;
+      background: #f08030;
+      border: 2px solid #c06020;
+      border-radius: 0 50% 50% 0;
+      bottom: 28px;
+      right: -2px;
+      transform: rotate(-8deg);
+    }
+    .pokemon-charizard .flame {
+      position: absolute;
+      width: 20px;
+      height: 26px;
+      background: linear-gradient(180deg, #ff5722 0%, #ffca28 60%, #fff176 100%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      bottom: 4px;
+      right: -10px;
+      animation: flame-flicker 0.3s ease infinite alternate;
+    }
+
+    /* Abra */
+    .pokemon-abra { width: 72px; height: 80px; }
+    .pokemon-abra .body {
+      position: absolute;
+      width: 46px;
+      height: 38px;
+      background: #f8d878;
+      border-radius: 45% 45% 40% 40%;
+      bottom: 14px;
+      left: 13px;
+      border: 2px solid #c8a848;
+    }
+    .pokemon-abra .armor {
+      position: absolute;
+      width: 14px;
+      height: 16px;
+      background: #a07040;
+      border-radius: 4px;
+      bottom: 36px;
+      border: 2px solid #704820;
+    }
+    .pokemon-abra .armor-left { left: 10px; transform: rotate(-10deg); }
+    .pokemon-abra .armor-right { right: 10px; transform: rotate(10deg); }
+    .pokemon-abra .head {
+      position: absolute;
+      width: 40px;
+      height: 34px;
+      background: #f8d878;
+      border-radius: 50% 50% 42% 42%;
+      bottom: 42px;
+      left: 16px;
+      border: 2px solid #c8a848;
+    }
+    .pokemon-abra .ear {
+      position: absolute;
+      width: 12px;
+      height: 22px;
+      background: #f8d878;
+      border: 2px solid #c8a848;
+      border-radius: 50% 50% 0 0;
+      bottom: 62px;
+    }
+    .pokemon-abra .ear-left { left: 14px; transform: rotate(-20deg); }
+    .pokemon-abra .ear-right { right: 14px; transform: rotate(20deg); }
+    .pokemon-abra .eye {
+      position: absolute;
+      width: 10px;
+      height: 3px;
+      background: #1a1c2c;
+      border-radius: 2px;
+      bottom: 56px;
+    }
+    .pokemon-abra .eye-left { left: 22px; }
+    .pokemon-abra .eye-right { right: 22px; }
+    .pokemon-abra .nose {
+      position: absolute;
+      width: 6px;
+      height: 4px;
+      background: #c8a848;
+      border-radius: 50%;
+      bottom: 50px;
+      left: 33px;
+    }
+    .pokemon-abra .tail {
+      position: absolute;
+      width: 22px;
+      height: 10px;
+      background: #f8d878;
+      border: 2px solid #c8a848;
+      border-radius: 0 50% 50% 0;
+      bottom: 22px;
+      right: 2px;
+    }
+    .pokemon-abra .psychic-aura {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border: 2px dashed rgba(171, 71, 188, 0.4);
+      border-radius: 50%;
+      bottom: 10px;
+      left: 6px;
+      animation: psychic-pulse 2s ease infinite;
+    }
+
+    @keyframes psychic-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.4; }
+      50% { transform: scale(1.08); opacity: 0.7; }
+    }
+
     .pokemon-name {
       text-align: center;
       font-size: 0.75rem;
@@ -976,7 +1158,9 @@
       pikachu: 'Pikachu',
       charmander: 'Charmander',
       squirtle: 'Squirtle',
-      bulbasaur: 'Bulbasaur'
+      bulbasaur: 'Bulbasaur',
+      charizard: 'Charizard',
+      abra: 'Abra'
     };
 
     function formatMoney(amount) {
@@ -1024,6 +1208,34 @@
             <div class="spots spot-3"></div>
             <div class="eye eye-left"></div>
             <div class="eye eye-right"></div>
+          </div>`,
+        charizard: `
+          <div class="pokemon pokemon-charizard" role="img" aria-label="Charizard">
+            <div class="wing wing-left"></div>
+            <div class="wing wing-right"></div>
+            <div class="tail"></div>
+            <div class="flame"></div>
+            <div class="body"></div>
+            <div class="belly"></div>
+            <div class="head"></div>
+            <div class="horn horn-left"></div>
+            <div class="horn horn-right"></div>
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+          </div>`,
+        abra: `
+          <div class="pokemon pokemon-abra" role="img" aria-label="Abra">
+            <div class="psychic-aura"></div>
+            <div class="tail"></div>
+            <div class="body"></div>
+            <div class="armor armor-left"></div>
+            <div class="armor armor-right"></div>
+            <div class="head"></div>
+            <div class="ear ear-left"></div>
+            <div class="ear ear-right"></div>
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="nose"></div>
           </div>`
       };
       return templates[pokemon] || templates.pikachu;

@@ -18,22 +18,22 @@
   "players": [
     {
       "id": "p1",
-      "name": "Tú",
+      "name": "Yei",
       "pokemon": "pikachu",
       "balance": 3200,
       "badgesUnlocked": 4
     },
     {
       "id": "p2",
-      "name": "Esposa",
-      "pokemon": "charmander",
+      "name": "Rosmarinus",
+      "pokemon": "abra",
       "balance": 2800,
       "badgesUnlocked": 3
     },
     {
       "id": "p3",
-      "name": "Amigo",
-      "pokemon": "squirtle",
+      "name": "Chang",
+      "pokemon": "charizard",
       "balance": 1950,
       "badgesUnlocked": 2
     }
