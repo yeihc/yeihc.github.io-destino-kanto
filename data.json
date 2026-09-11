@@ -20,22 +20,22 @@
       "id": "p1",
       "name": "Yei",
       "pokemon": "snorlax",
-      "balance": 3200,
-      "badgesUnlocked": 4
+      "balance": 0,
+      "badgesUnlocked": 0
     },
     {
       "id": "p2",
       "name": "Rosmarinus",
       "pokemon": "abra",
-      "balance": 2800,
-      "badgesUnlocked": 3
+      "balance": 75,
+      "badgesUnlocked": 1
     },
     {
       "id": "p3",
       "name": "Chang",
       "pokemon": "charizard",
-      "balance": 1950,
-      "badgesUnlocked": 2
+      "balance": 0,
+      "badgesUnlocked": 0
     }
   ]
 }
