@@ -1,306 +1,1177 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto: ¡Destino Kanto! 🇯🇵</title>
-    <!-- Fuentes estilo Keycap / Gaming -->
-    <link href="https://googleapis.com" rel="stylesheet">
-    <style>
-        :root {
-            --poke-red: #ef5350;
-            --poke-blue: #2a75d3;
-            --poke-yellow: #ffcb05;
-            --dark-bg: #121212;
-            --card-bg: #1e1e1e;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proyecto: ¡Destino Kanto!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --poke-red: #e3350d;
+      --poke-blue: #2a75bb;
+      --poke-yellow: #ffcb05;
+      --poke-dark: #1a1c2c;
+      --poke-panel: #2c2137;
+      --poke-panel-border: #5a4a6a;
+      --grass-light: #5cb85c;
+      --grass-mid: #3d8b3d;
+      --grass-dark: #2d6b2d;
+      --sky-top: #6ec6ff;
+      --sky-bottom: #b3e5fc;
+      --hp-red: #ef5350;
+      --hp-yellow: #ffca28;
+      --hp-green: #66bb6a;
+      --text-light: #f5f5f5;
+      --text-muted: #b0bec5;
+      --shadow: rgba(0, 0, 0, 0.45);
+    }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--dark-bg);
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    *, *::before, *::after { box-sizing: border-box; }
 
-        h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1.2rem;
-            color: var(--poke-yellow);
-            text-shadow: 2px 2px var(--poke-blue);
-            text-align: center;
-            margin-bottom: 5px;
-        }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Outfit', sans-serif;
+      color: var(--text-light);
+      background: var(--poke-dark);
+      overflow-x: hidden;
+    }
 
-        .subtitle {
-            text-align: center;
-            color: #aaa;
-            margin-bottom: 25px;
-        }
+    /* ── Battlefield background ── */
+    .battlefield {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
 
-        /* Contenedor de progreso de captura */
-        .progress-container {
-            background: var(--card-bg);
-            border: 3px solid var(--poke-blue);
-            border-radius: 15px;
-            padding: 20px;
-            width: 100%;
-            max-width: 800px;
-            box-sizing: border-box;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(42, 117, 211, 0.2);
-        }
+    .sky {
+      position: fixed;
+      inset: 0 0 45% 0;
+      background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 100%);
+      z-index: 0;
+    }
 
-        .progress-title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
+    .cloud {
+      position: absolute;
+      background: #fff;
+      border-radius: 50px;
+      opacity: 0.85;
+      animation: drift linear infinite;
+    }
 
-        .bar-outer {
-            background: #333;
-            border-radius: 10px;
-            height: 25px;
-            width: 100%;
-            overflow: hidden;
-            border: 2px solid #555;
-        }
+    .cloud::before,
+    .cloud::after {
+      content: '';
+      position: absolute;
+      background: inherit;
+      border-radius: 50%;
+    }
 
-        .bar-inner {
-            height: 100%;
-            width: 0%; /* Se calcula dinámicamente */
-            background: linear-gradient(90deg, #ff5f6d, #ffc371);
-            transition: width 1s ease-in-out;
-        }
+    .cloud-1 { width: 80px; height: 28px; top: 12%; left: 8%; animation-duration: 45s; }
+    .cloud-1::before { width: 40px; height: 40px; top: -20px; left: 10px; }
+    .cloud-1::after { width: 50px; height: 35px; top: -15px; left: 35px; }
 
-        /* Grid de Entrenadores */
-        .trainers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 850px;
-        }
+    .cloud-2 { width: 100px; height: 32px; top: 22%; right: 15%; animation-duration: 55s; animation-direction: reverse; }
+    .cloud-2::before { width: 45px; height: 45px; top: -22px; left: 15px; }
+    .cloud-2::after { width: 55px; height: 38px; top: -18px; left: 40px; }
 
-        .trainer-card {
-            background: var(--card-bg);
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            transition: transform 0.3s;
-        }
+    .cloud-3 { width: 70px; height: 24px; top: 8%; left: 55%; animation-duration: 38s; }
+    .cloud-3::before { width: 35px; height: 35px; top: -18px; left: 8px; }
+    .cloud-3::after { width: 42px; height: 30px; top: -12px; left: 28px; }
 
-        .trainer-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--poke-yellow);
-        }
+    @keyframes drift {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(30px); }
+      100% { transform: translateX(0); }
+    }
 
-        .leader-badge {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: var(--poke-yellow);
-            color: black;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.6rem;
-            padding: 5px 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
+    .grass-layer {
+      position: fixed;
+      inset: 35% 0 0 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent 0px,
+          transparent 18px,
+          rgba(0,0,0,0.03) 18px,
+          rgba(0,0,0,0.03) 20px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent 0px,
+          transparent 14px,
+          rgba(0,0,0,0.04) 14px,
+          rgba(0,0,0,0.04) 16px
+        ),
+        linear-gradient(180deg, var(--grass-light) 0%, var(--grass-mid) 40%, var(--grass-dark) 100%);
+      z-index: 0;
+    }
 
-        .trainer-name {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+    .grass-layer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 120% 30% at 50% 0%, rgba(255,255,255,0.12) 0%, transparent 70%);
+    }
 
-        .poke-sprite {
-            width: 96px;
-            height: 96px;
-            margin: 0 auto;
-        }
+    /* ── Main content ── */
+    .battle-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
 
-        .xp-text {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            color: #4fc3f7;
-            margin: 15px 0;
-        }
+    /* ── Header HUD ── */
+    .battle-header {
+      text-align: center;
+      padding: 0.5rem 0;
+    }
 
-        /* Panel de Medallas */
-        .badges-box {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-            background: #151515;
-            padding: 10px;
-            border-radius: 10px;
-        }
+    .battle-header h1 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: clamp(0.75rem, 2.8vw, 1.1rem);
+      color: var(--poke-yellow);
+      text-shadow:
+        3px 3px 0 var(--poke-blue),
+        -1px -1px 0 #000;
+      margin: 0 0 0.5rem;
+      letter-spacing: 1px;
+    }
 
-        .badge-slot {
-            font-size: 1.5rem;
-            filter: grayscale(100%);
-            opacity: 0.3;
-            transition: all 0.3s;
-        }
+    .battle-header .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
 
-        .badge-slot.unlocked {
-            filter: grayscale(0%);
-            opacity: 1;
-            transform: scale(1.1);
-        }
+    .battle-header .subtitle strong {
+      color: #fff;
+    }
 
-        /* Controles de Simulación */
-        .admin-panel {
-            margin-top: 40px;
-            background: #222;
-            padding: 15px;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 800px;
-            box-sizing: border-box;
-        }
+    /* ── Capture zone (Mewtwo bar) ── */
+    .capture-zone {
+      background: var(--poke-panel);
+      border: 4px solid var(--poke-panel-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      box-shadow:
+        0 8px 0 rgba(0,0,0,0.3),
+        inset 0 0 0 2px rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+    }
 
-        .admin-title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.6rem;
-            color: var(--poke-red);
-            margin-bottom: 15px;
-        }
+    .capture-zone::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--poke-red), var(--poke-yellow), var(--poke-blue));
+    }
 
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: space-around;
-        }
+    .capture-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
 
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .capture-label {
+      font-family: 'Press Start 2P', cursive;
+      font-size: clamp(0.45rem, 1.8vw, 0.6rem);
+      color: var(--poke-yellow);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
 
-        select, input {
-            background: #333;
-            color: white;
-            border: 1px solid #555;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-top: 5px;
-        }
+    .mewtwo-silhouette {
+      width: 36px;
+      height: 44px;
+      position: relative;
+      flex-shrink: 0;
+    }
 
-        button {
-            background: var(--poke-blue);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+    .mewtwo-silhouette .head {
+      position: absolute;
+      width: 22px;
+      height: 18px;
+      background: #9b7ed9;
+      border-radius: 50% 50% 40% 40%;
+      top: 0;
+      left: 7px;
+      box-shadow: inset -3px -2px 0 rgba(0,0,0,0.2);
+    }
 
-        button:hover {
-            background: #1b50a2;
-        }
-    </style>
+    .mewtwo-silhouette .horn {
+      position: absolute;
+      width: 6px;
+      height: 10px;
+      background: #7b5fbf;
+      border-radius: 2px;
+      top: -4px;
+    }
+
+    .mewtwo-silhouette .horn-left { left: 6px; transform: rotate(-15deg); }
+    .mewtwo-silhouette .horn-right { right: 6px; transform: rotate(15deg); }
+
+    .mewtwo-silhouette .body {
+      position: absolute;
+      width: 28px;
+      height: 22px;
+      background: #8b6fc9;
+      border-radius: 40% 40% 30% 30%;
+      bottom: 4px;
+      left: 4px;
+    }
+
+    .mewtwo-silhouette .tail {
+      position: absolute;
+      width: 14px;
+      height: 8px;
+      background: #7b5fbf;
+      border-radius: 0 50% 50% 0;
+      bottom: 10px;
+      right: -4px;
+      transform: rotate(-10deg);
+    }
+
+    .capture-percent {
+      font-family: 'Press Start 2P', cursive;
+      font-size: clamp(0.55rem, 2vw, 0.7rem);
+      color: #fff;
+    }
+
+    .capture-bar-wrap {
+      position: relative;
+      height: 32px;
+      background: #1a1225;
+      border: 3px solid #444;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    .capture-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--hp-red) 0%, var(--hp-yellow) 50%, var(--hp-green) 100%);
+      transition: width 1.2s cubic-bezier(0.34, 1.2, 0.64, 1);
+      position: relative;
+      border-radius: 3px;
+    }
+
+    .capture-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 8px,
+        rgba(255,255,255,0.08) 8px,
+        rgba(255,255,255,0.08) 10px
+      );
+    }
+
+    .capture-bar-shake {
+      animation: capture-shake 0.4s ease;
+    }
+
+    @keyframes capture-shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
+    }
+
+    .pokeball-marker {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      transform: translateY(-50%);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--poke-red) 50%, #fff 50%);
+      border: 2px solid #222;
+      z-index: 2;
+    }
+
+    .pokeball-marker::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #222;
+      transform: translateY(-50%);
+    }
+
+    .pokeball-marker::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border: 2px solid #222;
+      border-radius: 50%;
+    }
+
+    .capture-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.65rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .capture-stats .total {
+      color: var(--hp-green);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .capture-stats .goal {
+      color: var(--poke-yellow);
+      font-weight: 600;
+    }
+
+    /* ── Arena layout ── */
+    .arena {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 768px) {
+      .arena {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    /* ── Trainer card (battle HUD style) ── */
+    .trainer-card {
+      background: var(--poke-panel);
+      border: 3px solid var(--poke-panel-border);
+      border-radius: 10px;
+      padding: 1rem;
+      position: relative;
+      box-shadow: 0 6px 0 rgba(0,0,0,0.35);
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .trainer-card.is-leader {
+      border-color: var(--poke-yellow);
+      box-shadow:
+        0 6px 0 rgba(0,0,0,0.35),
+        0 0 20px rgba(255, 203, 5, 0.25);
+      transform: translateY(-4px);
+    }
+
+    .leader-badge {
+      position: absolute;
+      top: -12px;
+      right: 12px;
+      background: var(--poke-yellow);
+      color: #1a1c2c;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.45rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 2px solid #c9a000;
+      display: none;
+      z-index: 2;
+    }
+
+    .trainer-card.is-leader .leader-badge {
+      display: block;
+      animation: badge-pulse 2s ease infinite;
+    }
+
+    @keyframes badge-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 203, 5, 0.5); }
+      50% { box-shadow: 0 0 12px 4px rgba(255, 203, 5, 0.3); }
+    }
+
+    .trainer-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      gap: 0.5rem;
+    }
+
+    .trainer-name {
+      font-family: 'Press Start 2P', cursive;
+      font-size: clamp(0.5rem, 2vw, 0.65rem);
+      color: #fff;
+      margin: 0;
+    }
+
+    .trainer-rank {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .trainer-rank span {
+      color: var(--poke-yellow);
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.55rem;
+    }
+
+    /* HP / XP bar */
+    .xp-bar-container {
+      margin: 0.5rem 0 0.75rem;
+    }
+
+    .xp-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+    }
+
+    .xp-bar-label .xp-value {
+      color: #4fc3f7;
+      font-weight: 700;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.55rem;
+    }
+
+    .xp-bar-outer {
+      height: 10px;
+      background: #1a1225;
+      border: 2px solid #444;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .xp-bar-inner {
+      height: 100%;
+      background: linear-gradient(90deg, #29b6f6, #4fc3f7);
+      width: 0%;
+      transition: width 0.8s ease;
+      border-radius: 1px;
+    }
+
+    /* Battle platform + Pokemon */
+    .battle-platform {
+      position: relative;
+      height: 130px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin: 0.5rem 0;
+    }
+
+    .platform-shadow {
+      position: absolute;
+      bottom: 8px;
+      width: 75%;
+      height: 28px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.35) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .platform-ellipse {
+      position: absolute;
+      bottom: 18px;
+      width: 70%;
+      height: 22px;
+      background: linear-gradient(180deg, #4a9a4a 0%, #2d6b2d 100%);
+      border-radius: 50%;
+      border: 2px solid rgba(0,0,0,0.2);
+    }
+
+    .pokemon-sprite {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 28px;
+      animation: pokemon-bounce 2s ease-in-out infinite;
+    }
+
+    .trainer-card.is-leader .pokemon-sprite {
+      animation: pokemon-bounce 1.2s ease-in-out infinite;
+    }
+
+    @keyframes pokemon-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* ── CSS Pokemon sprites ── */
+    .pokemon { position: relative; }
+
+    /* Pikachu */
+    .pokemon-pikachu { width: 72px; height: 80px; }
+    .pokemon-pikachu .body {
+      position: absolute;
+      width: 52px;
+      height: 48px;
+      background: #f8d030;
+      border-radius: 45% 45% 40% 40%;
+      bottom: 8px;
+      left: 10px;
+      border: 2px solid #c9a020;
+    }
+    .pokemon-pikachu .ear {
+      position: absolute;
+      width: 14px;
+      height: 32px;
+      background: #f8d030;
+      border: 2px solid #c9a020;
+      border-radius: 50% 50% 0 0;
+      top: 0;
+    }
+    .pokemon-pikachu .ear-left { left: 12px; transform: rotate(-25deg); }
+    .pokemon-pikachu .ear-right { right: 12px; transform: rotate(25deg); }
+    .pokemon-pikachu .ear-tip {
+      position: absolute;
+      width: 10px;
+      height: 14px;
+      background: #1a1c2c;
+      border-radius: 50% 50% 0 0;
+      top: 0;
+      left: 2px;
+    }
+    .pokemon-pikachu .cheek {
+      position: absolute;
+      width: 12px;
+      height: 10px;
+      background: #e3350d;
+      border-radius: 50%;
+      bottom: 28px;
+      opacity: 0.9;
+    }
+    .pokemon-pikachu .cheek-left { left: 6px; }
+    .pokemon-pikachu .cheek-right { right: 6px; }
+    .pokemon-pikachu .eye {
+      position: absolute;
+      width: 8px;
+      height: 10px;
+      background: #1a1c2c;
+      border-radius: 50%;
+      bottom: 38px;
+    }
+    .pokemon-pikachu .eye-left { left: 20px; }
+    .pokemon-pikachu .eye-right { right: 20px; }
+    .pokemon-pikachu .tail {
+      position: absolute;
+      width: 24px;
+      height: 20px;
+      background: #f8d030;
+      border: 2px solid #c9a020;
+      bottom: 20px;
+      right: -8px;
+      clip-path: polygon(0 50%, 100% 0, 100% 100%);
+    }
+
+    /* Charmander */
+    .pokemon-charmander { width: 72px; height: 80px; }
+    .pokemon-charmander .body {
+      position: absolute;
+      width: 48px;
+      height: 44px;
+      background: #f08030;
+      border-radius: 45% 45% 38% 38%;
+      bottom: 10px;
+      left: 12px;
+      border: 2px solid #c06020;
+    }
+    .pokemon-charmander .belly {
+      position: absolute;
+      width: 28px;
+      height: 22px;
+      background: #f8c878;
+      border-radius: 50%;
+      bottom: 14px;
+      left: 22px;
+    }
+    .pokemon-charmander .head {
+      position: absolute;
+      width: 40px;
+      height: 32px;
+      background: #f08030;
+      border-radius: 50% 50% 42% 42%;
+      bottom: 44px;
+      left: 16px;
+      border: 2px solid #c06020;
+    }
+    .pokemon-charmander .eye {
+      position: absolute;
+      width: 8px;
+      height: 10px;
+      background: #1a1c2c;
+      border-radius: 50%;
+      bottom: 56px;
+    }
+    .pokemon-charmander .eye-left { left: 24px; }
+    .pokemon-charmander .eye-right { right: 24px; }
+    .pokemon-charmander .flame {
+      position: absolute;
+      width: 16px;
+      height: 22px;
+      background: linear-gradient(180deg, #ff5722, #ffca28);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      bottom: 6px;
+      right: 2px;
+      animation: flame-flicker 0.3s ease infinite alternate;
+    }
+
+    @keyframes flame-flicker {
+      from { transform: scaleY(1) scaleX(1); opacity: 1; }
+      to { transform: scaleY(1.15) scaleX(0.9); opacity: 0.85; }
+    }
+
+    /* Squirtle */
+    .pokemon-squirtle { width: 72px; height: 80px; }
+    .pokemon-squirtle .shell {
+      position: absolute;
+      width: 50px;
+      height: 38px;
+      background: #6890f0;
+      border-radius: 50%;
+      bottom: 12px;
+      left: 11px;
+      border: 3px solid #3860c0;
+    }
+    .pokemon-squirtle .shell-pattern {
+      position: absolute;
+      width: 20px;
+      height: 16px;
+      border: 2px solid #3860c0;
+      border-radius: 50%;
+      bottom: 24px;
+      left: 26px;
+      opacity: 0.5;
+    }
+    .pokemon-squirtle .head {
+      position: absolute;
+      width: 38px;
+      height: 32px;
+      background: #78c8f0;
+      border-radius: 50%;
+      bottom: 40px;
+      left: 17px;
+      border: 2px solid #5090c0;
+    }
+    .pokemon-squirtle .eye {
+      position: absolute;
+      width: 8px;
+      height: 10px;
+      background: #1a1c2c;
+      border-radius: 50%;
+      bottom: 54px;
+    }
+    .pokemon-squirtle .eye-left { left: 24px; }
+    .pokemon-squirtle .eye-right { right: 24px; }
+    .pokemon-squirtle .tail {
+      position: absolute;
+      width: 18px;
+      height: 14px;
+      background: #78c8f0;
+      border-radius: 0 50% 50% 0;
+      bottom: 22px;
+      right: 4px;
+      border: 2px solid #5090c0;
+    }
+
+    /* Bulbasaur */
+    .pokemon-bulbasaur { width: 72px; height: 80px; }
+    .pokemon-bulbasaur .body {
+      position: absolute;
+      width: 50px;
+      height: 36px;
+      background: #78c850;
+      border-radius: 45% 45% 40% 40%;
+      bottom: 14px;
+      left: 11px;
+      border: 2px solid #508040;
+    }
+    .pokemon-bulbasaur .spots {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #508040;
+      border-radius: 50%;
+      bottom: 28px;
+    }
+    .pokemon-bulbasaur .spot-1 { left: 18px; }
+    .pokemon-bulbasaur .spot-2 { left: 36px; bottom: 22px; }
+    .pokemon-bulbasaur .spot-3 { left: 48px; bottom: 30px; width: 6px; height: 6px; }
+    .pokemon-bulbasaur .bulb {
+      position: absolute;
+      width: 28px;
+      height: 24px;
+      background: #58a040;
+      border-radius: 50% 50% 30% 30%;
+      bottom: 42px;
+      left: 22px;
+      border: 2px solid #387030;
+    }
+    .pokemon-bulbasaur .bulb-highlight {
+      position: absolute;
+      width: 8px;
+      height: 6px;
+      background: #88d060;
+      border-radius: 50%;
+      bottom: 56px;
+      left: 30px;
+    }
+    .pokemon-bulbasaur .eye {
+      position: absolute;
+      width: 10px;
+      height: 12px;
+      background: #1a1c2c;
+      border-radius: 50%;
+      bottom: 36px;
+      border: 2px solid #fff;
+    }
+    .pokemon-bulbasaur .eye-left { left: 20px; }
+    .pokemon-bulbasaur .eye-right { right: 20px; }
+
+    .pokemon-name {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: capitalize;
+      margin-top: -4px;
+      font-weight: 600;
+    }
+
+    /* ── Gym badges ── */
+    .badges-section {
+      margin-top: 0.5rem;
+      padding-top: 0.75rem;
+      border-top: 2px dashed rgba(255,255,255,0.1);
+    }
+
+    .badges-title {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.45rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .badges-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .badge {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #1a1225;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      opacity: 0.35;
+      filter: grayscale(1);
+      transition: all 0.35s ease;
+    }
+
+    .badge.unlocked {
+      opacity: 1;
+      filter: grayscale(0);
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(255,255,255,0.2);
+    }
+
+    .badge-inner {
+      width: 70%;
+      height: 70%;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .badge-star {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 8px solid rgba(255,255,255,0.8);
+      position: relative;
+    }
+
+    .badge-star::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: -5px;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 8px solid rgba(255,255,255,0.8);
+    }
+
+    .badge-tooltip {
+      position: absolute;
+      bottom: calc(100% + 4px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1225;
+      border: 1px solid #555;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 0.55rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 5;
+    }
+
+    .badge:hover .badge-tooltip { opacity: 1; }
+
+    .badges-complete {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.4rem;
+      color: var(--hp-green);
+      display: none;
+    }
+
+    .badges-complete.visible { display: block; }
+
+    /* ── Leaderboard strip ── */
+    .leaderboard {
+      background: var(--poke-panel);
+      border: 3px solid var(--poke-panel-border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 6px 0 rgba(0,0,0,0.35);
+    }
+
+    .leaderboard-title {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.5rem;
+      color: var(--poke-yellow);
+      margin-bottom: 0.65rem;
+      text-align: center;
+    }
+
+    .leaderboard-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.4rem 0.6rem;
+      background: rgba(0,0,0,0.25);
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+
+    .leaderboard-item.rank-1 {
+      border-left: 3px solid var(--poke-yellow);
+      background: rgba(255, 203, 5, 0.08);
+    }
+
+    .leaderboard-rank {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.5rem;
+      color: var(--poke-yellow);
+      min-width: 1.5rem;
+    }
+
+    .leaderboard-name {
+      flex: 1;
+      font-weight: 600;
+    }
+
+    .leaderboard-xp {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.5rem;
+      color: #4fc3f7;
+    }
+
+    /* ── Footer note ── */
+    .data-note {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 0.5rem;
+      opacity: 0.7;
+    }
+
+    .data-note code {
+      background: rgba(0,0,0,0.3);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+    }
+
+    /* ── Loading state ── */
+    .loading {
+      text-align: center;
+      padding: 4rem 1rem;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.6rem;
+      color: var(--poke-yellow);
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0.3; }
+    }
+
+    .error-msg {
+      text-align: center;
+      padding: 2rem;
+      color: var(--hp-red);
+      font-weight: 600;
+    }
+  </style>
 </head>
 <body>
-
-    <h1>PROYECTO: DESTINO KANTO</h1>
-    <div class="subtitle">Operación Japón 2030 🇯🇵</div>
-
-    <!-- BARRA GLOBAL DE CAPTURA (PROGRESO) -->
-    <div class="progress-container">
-        <div class="progress-title">
-            <span>CAPTURANDO EL VIAJE...</span>
-            <span id="global-percentage">0%</span>
-        </div>
-        <div class="bar-outer">
-            <div id="progress-bar" class="bar-inner"></div>
-        </div>
-        <div style="margin-top: 10px; font-size: 0.9rem; text-align: center; color: #aaa;">
-            Total Ahorrado: <span id="global-total" style="color: #81c784; font-weight: bold;">$0</span> / Meta Inicial Ajustada: $16,884 USD
-        </div>
+  <div class="battlefield">
+    <div class="sky" aria-hidden="true">
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
     </div>
+    <div class="grass-layer" aria-hidden="true"></div>
 
-    <!-- TARJETAS DE ENTRENADORES -->
-    <div class="trainers-grid">
-        <!-- Entrenador 1 -->
-        <div class="trainer-card" id="card-p1">
-            <div class="leader-badge" id="leader-p1" style="display:none;">LÍDER</div>
-            <div class="trainer-name">Tú</div>
-            <select id="select-p1" onchange="updatePokemon('p1')">
-                <option value="25">Pikachu</option>
-                <option value="4">Charmander</option>
-                <option value="7">Squirtle</option>
-                <option value="1">Bulbasaur</option>
-            </select>
-            <img id="sprite-p1" class="poke-sprite" src="https://githubusercontent.com" alt="Pokemon">
-            <div class="xp-text">XP: $<span id="balance-p1">0</span></div>
-            <div class="badges-box" id="badges-p1"></div>
-        </div>
-
-        <!-- Entrenador 2 -->
-        <div class="trainer-card" id="card-p2">
-            <div class="leader-badge" id="leader-p2" style="display:none;">LÍDER</div>
-            <div class="trainer-name">Esposa</div>
-            <select id="select-p2" onchange="updatePokemon('p2')">
-                <option value="4">Charmander</option>
-                <option value="25">Pikachu</option>
-                <option value="7">Squirtle</option>
-                <option value="1">Bulbasaur</option>
-            </select>
-            <img id="sprite-p2" class="poke-sprite" src="https://githubusercontent.com" alt="Pokemon">
-            <div class="xp-text">XP: $<span id="balance-p2">0</span></div>
-            <div class="badges-box" id="badges-p2"></div>
-        </div>
-
-        <!-- Entrenador 3 -->
-        <div class="trainer-card" id="card-p3">
-            <div class="leader-badge" id="leader-p3" style="display:none;">LÍDER</div>
-            <div class="trainer-name">Amigo</div>
-            <select id="select-p3" onchange="updatePokemon('p3')">
-                <option value="7">Squirtle</option>
-                <option value="25">Pikachu</option>
-                <option value="4">Charmander</option>
-                <option value="1">Bulbasaur</option>
-            </select>
-            <img id="sprite-p3" class="poke-sprite" src="https://githubusercontent.com" alt="Pokemon">
-            <div class="xp-text">XP: $<span id="balance-p3">0</span></div>
-            <div class="badges-box" id="badges-p3"></div>
-        </div>
+    <div class="battle-content" id="app">
+      <p class="loading">Cargando Pokédex de Ahorros...</p>
     </div>
+  </div>
 
-    <!-- PANEL DE ADMINISTRACIÓN DE TU EXCEL GLOBAL -->
-    <div class="admin-panel">
-        <div class="admin-title">⚙️ PANEL DE CONTROL GLOBAL (TÚ ACTUALIZAS AQUÍ)</div>
-        <div class="controls">
-            <div class="control-group">
-                <label>Tu Balance ($)</label>
-                <input type="number" id="input-p1" value="0" min="0" onchange="recalculateAll()">
-            </div>
-            <div class="control-group">
-                <label>Esposa Balance ($)</label>
-                <input type="number" id="input-p2" value="0" min="0" onchange="recalculateAll()">
-            </div>
-            <div class="control-group">
-                <label>Amigo Balance ($)</label>
-                <input type="number" id="input-p3" value="0" min="0" onchange="recalculateAll()">
-            </div>
+  <script>
+    const POKEMON_LABELS = {
+      pikachu: 'Pikachu',
+      charmander: 'Charmander',
+      squirtle: 'Squirtle',
+      bulbasaur: 'Bulbasaur'
+    };
+
+    function formatMoney(amount) {
+      return '$' + amount.toLocaleString('en-US');
+    }
+
+    function createPokemonSprite(pokemon) {
+      const templates = {
+        pikachu: `
+          <div class="pokemon pokemon-pikachu" role="img" aria-label="Pikachu">
+            <div class="ear ear-left"><div class="ear-tip"></div></div>
+            <div class="ear ear-right"><div class="ear-tip"></div></div>
+            <div class="body"></div>
+            <div class="cheek cheek-left"></div>
+            <div class="cheek cheek-right"></div>
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="tail"></div>
+          </div>`,
+        charmander: `
+          <div class="pokemon pokemon-charmander" role="img" aria-label="Charmander">
+            <div class="head"></div>
+            <div class="body"></div>
+            <div class="belly"></div>
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="flame"></div>
+          </div>`,
+        squirtle: `
+          <div class="pokemon pokemon-squirtle" role="img" aria-label="Squirtle">
+            <div class="shell"></div>
+            <div class="shell-pattern"></div>
+            <div class="head"></div>
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="tail"></div>
+          </div>`,
+        bulbasaur: `
+          <div class="pokemon pokemon-bulbasaur" role="img" aria-label="Bulbasaur">
+            <div class="bulb"></div>
+            <div class="bulb-highlight"></div>
+            <div class="body"></div>
+            <div class="spots spot-1"></div>
+            <div class="spots spot-2"></div>
+            <div class="spots spot-3"></div>
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+          </div>`
+      };
+      return templates[pokemon] || templates.pikachu;
+    }
+
+    function renderBadges(badgeDefs, unlocked) {
+      return badgeDefs.map((badge, i) => `
+        <div class="badge ${i < unlocked ? 'unlocked' : ''}" style="--badge-color: ${badge.color}">
+          <div class="badge-inner" style="background: ${badge.color}">
+            <div class="badge-star"></div>
+          </div>
+          <span class="badge-tooltip">${badge.name}</span>
         </div>
-    </div>
+      `).join('');
+    }
 
-    <script>
-        const GOAL = 16884; // Meta total ajustada por inflación de los 3
-        const badgeEmojis = ['💎', '🌊', '⚡', '🌈', '🟤', '💜', '🔥', '🌍'];
+    function renderTrainerCard(player, rank, maxBalance, badgeDefs) {
+      const xpPercent = maxBalance > 0 ? (player.balance / maxBalance) * 100 : 0;
+      const isLeader = rank === 1;
+      const allBadges = player.badgesUnlocked >= 8;
 
+      return `
+        <article class="trainer-card ${isLeader ? 'is-leader' : ''}" id="card-${player.id}">
+          <div class="leader-badge">LÍDER</div>
+          <div class="trainer-hud">
+            <h2 class="trainer-name">${player.name}</h2>
+            <div class="trainer-rank">#<span>${rank}</span></div>
+          </div>
+          <div class="xp-bar-container">
+            <div class="xp-bar-label">
+              <span>XP (Balance)</span>
+              <span class="xp-value">${formatMoney(player.balance)}</span>
+            </div>
+            <div class="xp-bar-outer">
+              <div class="xp-bar-inner" style="width: ${xpPercent}%"></div>
+            </div>
+          </div>
+          <div class="battle-platform">
+            <div class="platform-shadow"></div>
+            <div class="platform-ellipse"></div>
+            <div class="pokemon-sprite">
+              ${createPokemonSprite(player.pokemon)}
+            </div>
+          </div>
+          <p class="pokemon-name">${POKEMON_LABELS[player.pokemon] || player.pokemon}</p>
+          <div class="badges-section">
+            <div class="badges-title">MEDALLAS DE KANTO</div>
+            <div class="badges-grid">
+              ${renderBadges(badgeDefs, player.badgesUnlocked)}
+            </div>
+            <div class="badges-complete ${allBadges ? 'visible' : ''}">
+              ¡1er año completado!
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderLeaderboard(players) {
+      const sorted = [...players].sort((a, b) => b.balance - a.balance);
+      return `
+        <section class="leaderboard" aria-label="Tabla de posiciones">
+          <div class="leaderboard-title">TABLA DE POSICIONES</div>
+          <ol class="leaderboard-list">
+            ${sorted.map((p, i) => `
+              <li class="leaderboard-item rank-${i + 1}">
+                <span class="leaderboard-rank">${i + 1}º</span>
+                <span class="leaderboard-name">${p.name}</span>
+                <span class="leaderboard-xp">${formatMoney(p.balance)}</span>
+              </li>
+            `).join('')}
+          </ol>
+        </section>
+      `;
+    }
+
+    function renderApp(data) {
+      const { meta, badges, players } = data;
+      const total = players.reduce((sum, p) => sum + p.balance, 0);
+      const percent = Math.min(100, Math.round((total / meta.goal) * 100));
+      const maxBalance = Math.max(...players.map(p => p.balance), 1);
+      const sorted = [...players].sort((a, b) => b.balance - a.balance);
+
+      const rankedPlayers = players.map(p => ({
+        ...p,
+        rank: sorted.findIndex(s => s.id === p.id) + 1
+      }));
+
+      document.getElementById('app').innerHTML = `
+        <header class="battle-header">
+          <h1>${meta.title}</h1>
+          <p class="subtitle"><strong>${meta.subtitle}</strong> — Destino: ${meta.destination}</p>
+        </header>
+
+        <section class="capture-zone" aria-label="Progreso de captura del viaje">
+          <div class="capture-header">
+            <div class="capture-label">
+              <div class="mewtwo-silhouette" aria-hidden="true">
+                <div class="horn horn-left"></div>
+                <div class="horn horn-right"></div>
+                <div class="head"></div>
+                <div class="body"></div>
+                <div class="tail"></div>
+              </div>
+              <span>CAPTURANDO EL VIAJE...</span>
+            </div>
+            <span class="capture-percent" id="global-percentage">${percent}%</span>
+          </div>
+          <div class="capture-bar-wrap">
+            <div class="capture-bar" id="progress-bar" style="width: ${percent}%"></div>
+            <div class="pokeball-marker" aria-hidden="true"></div>
+          </div>
+          <div class="capture-stats">
+            <span>Total ahorrado: <span class="total" id="global-total">${formatMoney(total)}</span></span>
+            <span>Meta: <span class="goal">${formatMoney(meta.goal)} USD</span></span>
+          </div>
+        </section>
+
+        <section class="arena" aria-label="Entrenadores">
+          ${rankedPlayers.map(p => renderTrainerCard(p, p.rank, maxBalance, badges)).join('')}
+        </section>
+
+        ${renderLeaderboard(players)}
+
+        <p class="data-note">
+          Actualiza el progreso editando <code>data.json</code> manualmente.
+        </p>
+      `;
+
+      const bar = document.getElementById('progress-bar');
+      if (bar && percent > 0) {
+        setTimeout(() => bar.classList.add('capture-bar-shake'), 1200);
+      }
+    }
+
+    async function init() {
+      try {
+        const response = await fetch('data.json');
+        if (!response.ok) throw new Error('No se pudo cargar data.json');
+        const data = await response.json();
+        renderApp(data);
+      } catch (err) {
+        document.getElementById('app').innerHTML =
+          `<p class="error-msg">Error al cargar datos: ${err.message}.<br>Verifica que <code>data.json</code> exista en el mismo directorio.</p>`;
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

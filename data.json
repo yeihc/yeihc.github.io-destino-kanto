@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "goal": 16884,
+    "title": "PROYECTO: DESTINO KANTO",
+    "subtitle": "Operación Japón 2030",
+    "destination": "Japón"
+  },
+  "badges": [
+    { "id": 1, "name": "Roca", "city": "Ciudad Plateada", "color": "#8d6e63" },
+    { "id": 2, "name": "Cascada", "city": "Ciudad Celeste", "color": "#42a5f5" },
+    { "id": 3, "name": "Trueno", "city": "Ciudad Carmín", "color": "#fdd835" },
+    { "id": 4, "name": "Arcoíris", "city": "Ciudad Azulona", "color": "#ec407a" },
+    { "id": 5, "name": "Alma", "city": "Ciudad Fucsia", "color": "#ab47bc" },
+    { "id": 6, "name": "Pantano", "city": "Ciudad Azafrán", "color": "#ffb300" },
+    { "id": 7, "name": "Volcán", "city": "Isla Canela", "color": "#ef5350" },
+    { "id": 8, "name": "Tierra", "city": "Ciudad Verde", "color": "#66bb6a" }
+  ],
+  "players": [
+    {
+      "id": "p1",
+      "name": "Tú",
+      "pokemon": "pikachu",
+      "balance": 3200,
+      "badgesUnlocked": 4
+    },
+    {
+      "id": "p2",
+      "name": "Esposa",
+      "pokemon": "charmander",
+      "balance": 2800,
+      "badgesUnlocked": 3
+    },
+    {
+      "id": "p3",
+      "name": "Amigo",
+      "pokemon": "squirtle",
+      "balance": 1950,
+      "badgesUnlocked": 2
+    }
+  ]
+}
